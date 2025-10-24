@@ -1,0 +1,47 @@
+# Configuration Docker Compose pour MongoDB
+# Docker Compose permet de gérer des applications multi-conteneurs de manière simple
+
+version: '3.8'
+
+services:
+  # Service MongoDB
+  mongodb:
+    # Image officielle MongoDB depuis Docker Hub
+    image: mongo:7.0
+    
+    # Nom du conteneur pour faciliter l'identification
+    container_name: blog-mongodb
+    
+    # Redémarrage automatique en cas d'arrêt
+    restart: unless-stopped
+    
+    # Variables d'environnement pour la configuration de MongoDB
+    environment:
+      # Nom d'utilisateur administrateur
+      MONGO_INITDB_ROOT_USERNAME: admin
+      # Mot de passe administrateur (à changer en production !)
+      MONGO_INITDB_ROOT_PASSWORD: adminpassword
+      # Base de données par défaut à créer
+      MONGO_INITDB_DATABASE: blog_mern
+    
+    # Mapping des ports : port_hote:port_conteneur
+    # Le port 27017 est le port par défaut de MongoDB
+    ports:
+      - "27017:27017"
+    
+    # Volumes pour persister les données
+    # Sans volume, les données seraient perdues à chaque redémarrage
+    volumes:
+      # Stockage des données MongoDB
+      - mongodb_data:/data/db
+      # Stockage des fichiers de configuration
+      - mongodb_config:/data/configdb
+
+# Déclaration des volumes nommés
+# Ces volumes sont gérés par Docker et persistent entre les redémarrages
+volumes:
+  mongodb_data:
+    driver: local
+  mongodb_config:
+    driver: local
+
