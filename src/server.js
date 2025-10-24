@@ -18,15 +18,39 @@ const app = express();
 // sinon on utilise le port 3000 par défaut
 const PORT = process.env.PORT || 3000;
 
+// ============================================
+// MIDDLEWARES
+// ============================================
+
+// Middleware pour parser le JSON
+// Permet de lire req.body dans les requêtes POST/PUT
+// Sans ce middleware, req.body serait undefined
+app.use(express.json());
+
+// Middleware pour parser les données URL-encodées (formulaires)
+app.use(express.urlencoded({ extended: true }));
+
+// ============================================
+// ROUTES
+// ============================================
+
 // Route de base pour tester le serveur
 // GET / renvoie un message simple pour confirmer que le serveur fonctionne
 app.get('/', (req, res) => {
     res.json({
         message: 'Bienvenue sur l\'API du Blog MERN !',
         version: '1.0.0',
-        status: 'Le serveur fonctionne correctement'
+        status: 'Le serveur fonctionne correctement',
+        endpoints: {
+            articles: '/api/articles'
+        }
     });
 });
+
+// Import et montage des routes des articles
+// Toutes les routes commençant par /api/articles seront gérées par ce router
+const articleRoutes = require('./routes/articles');
+app.use('/api/articles', articleRoutes);
 
 // Fonction asynchrone pour démarrer le serveur
 // On utilise une fonction async pour pouvoir attendre la connexion à MongoDB
