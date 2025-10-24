@@ -15,8 +15,9 @@ Ce cours progressif vous permettra de maîtriser la stack MERN (MongoDB, Express
 | [Module 00](module-00-template.md) | Template de référence | - | ✅ Template |
 | [Module 01](module-01.md) | Configuration initiale du projet | `module-01` | ✅ Terminé |
 | [Module 02](module-02.md) | Docker et MongoDB | `module-02` | ✅ Terminé |
-| Module 03 | Connexion MongoDB avec Mongoose | `module-03` | ⏳ En attente |
+| [Module 03](module-03.md) | Connexion MongoDB avec Mongoose | `module-03` | ✅ Terminé |
 | Module 04 | Modèle Article (Schema Mongoose) | `module-04` | ⏳ En attente |
+| Module 05 | Routes et Controllers - Articles | `module-05` | ⏳ En attente |
 
 > **Note :** Cette liste sera mise à jour au fur et à mesure de l'avancement du projet.
 

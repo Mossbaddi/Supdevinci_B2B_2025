@@ -1,6 +1,13 @@
+// Chargement des variables d'environnement depuis le fichier .env
+// dotenv doit être chargé en premier pour que les variables soient disponibles
+require('dotenv').config();
+
 // Import du module Express
 // Express est un framework web minimaliste pour Node.js
 const express = require('express');
+
+// Import de la fonction de connexion à MongoDB
+const { connectDB } = require('./config/database');
 
 // Création de l'application Express
 // Cette instance sera le coeur de notre serveur web
@@ -21,10 +28,29 @@ app.get('/', (req, res) => {
     });
 });
 
-// Démarrage du serveur
-// Le serveur écoute sur le port spécifié et affiche un message de confirmation
-app.listen(PORT, () => {
-    console.log(`🚀 Serveur démarré sur le port ${PORT}`);
-    console.log(`📍 URL : http://localhost:${PORT}`);
-});
+// Fonction asynchrone pour démarrer le serveur
+// On utilise une fonction async pour pouvoir attendre la connexion à MongoDB
+const startServer = async () => {
+    try {
+        // Étape 1 : Connexion à MongoDB
+        // On attend que la connexion soit établie avant de démarrer le serveur
+        await connectDB();
+
+        // Étape 2 : Démarrage du serveur Express
+        // Le serveur ne démarre que si MongoDB est connecté
+        app.listen(PORT, () => {
+            console.log(`🚀 Serveur démarré sur le port ${PORT}`);
+            console.log(`📍 URL : http://localhost:${PORT}`);
+            console.log(`🌍 Environnement : ${process.env.NODE_ENV || 'development'}`);
+        });
+
+    } catch (error) {
+        // Si une erreur survient pendant le démarrage
+        console.error('❌ Erreur au démarrage du serveur:', error);
+        process.exit(1);
+    }
+};
+
+// Lancement de l'application
+startServer();
 
