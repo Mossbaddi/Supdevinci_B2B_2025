@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 async function startServer() {
   try {
     await connectDB();
-    app.listen(PORT, (param1) => {
+    app.listen(PORT, () => {
       // Instructions à lancer au lancement
       console.log(`Serveur démarré sur le port ${PORT}`);
     });
