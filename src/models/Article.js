@@ -6,7 +6,7 @@ import mongoose from "mongoose";
  * 
  * Ici, je définis à quoi doit ressembler mon document en base de données
  */
-const articleSchema = new Mongoose.Schema({
+const articleSchema = new mongoose.Schema({
     titre: {
         type: String,
         trim: true,
@@ -48,15 +48,48 @@ const articleSchema = new Mongoose.Schema({
         min: [0, 'le nombre de vues ne peut pas être négatif']
 
     }
-})
+}, 
+{   
+    // Ajout automatique des champs createdAt et updatedAt
+    timestamps: true,
 
-
+    toJSON: {
+        virtuals: true,
+    }
+}
+)
 articleSchema.methods.publier = function() {
     this.publie = true
     return this.save()
 }
 
 
+articleSchema.methods.depublier = function() {
+    this.publie = false
+    return this.save()
+}
 
+articleSchema.methods.incrementerVues = function() {
+    this.vues += 1
+    return this.save()
+}
+
+
+
+articleSchema.statics.findByCategorie = function(categorie) {
+    return this.find({ categorie: categorie })
+}
+
+articleSchema.statics.findPublies = function() {
+    return this.find({ publie: true })
+}
+
+
+articleSchema.virtual('resume').get(function() {
+    if (this.contenu.length <= 100) {
+        return this.contenu
+    }
+    return this.contenu.substring(0, 100) + '...'
+})
 
 export const Article = mongoose.model('Article', articleSchema)

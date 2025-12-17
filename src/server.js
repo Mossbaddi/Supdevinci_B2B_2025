@@ -6,6 +6,8 @@ import { connectDB } from "./config/database.js";
 
 const app = express();
 
+app.use(express.json());
+
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
@@ -13,6 +15,11 @@ app.get("/", (req, res) => {
     message: "Bienvenue sur l'API",
   });
 });
+
+
+import articlesRouter from "./routes/articles.js";
+app.use('/api/articles', articlesRouter);
+
 
 async function startServer() {
   try {

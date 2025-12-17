@@ -1,1 +1,12 @@
 GET http://localhost:3000/
+
+###
+
+POST http://localhost:3000/api/articles
+Content-Type: application/json
+
+{
+    "contenu": "Ceci est le contenu de mon premier article.",
+    "auteur": "Jean Dupont",
+    "categorie": "banane"
+}
