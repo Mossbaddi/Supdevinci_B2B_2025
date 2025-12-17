@@ -1,3 +1,7 @@
+@nomdevariable = valeur
+@articleId = 694172eb2f8e93fd98a27d8f
+
+
 GET http://localhost:3000/
 
 ###
@@ -6,7 +10,20 @@ POST http://localhost:3000/api/articles
 Content-Type: application/json
 
 {
+    "titre": "Mon premier article",
     "contenu": "Ceci est le contenu de mon premier article.",
     "auteur": "Jean Dupont",
     "categorie": "banane"
 }
+
+
+###
+
+GET http://localhost:3000/api/articles/
+
+###
+GET http://localhost:3000/api/articles/{{articleId}}
+
+
+###
+GET http://localhost:3000/api/articles/{{articleId}}
